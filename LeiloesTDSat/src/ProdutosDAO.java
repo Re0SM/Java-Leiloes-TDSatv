@@ -23,8 +23,8 @@ public class ProdutosDAO {
     ResultSet resultset;
     ArrayList<ProdutosDTO> listagem = new ArrayList<>();
     
-    public void cadastrarProduto (ProdutosDTO produto){
-        
+    public int cadastrarProduto (ProdutosDTO produto){
+        int status = 0;
 
         try {
             Connection conexao = conectaDAO.connectDB();
@@ -33,7 +33,7 @@ public class ProdutosDAO {
             prep.setString(1, produto.getNome());
             prep.setInt(2, produto.getValor());
             prep.setString(3,produto.getStatus());
-            prep.executeUpdate();
+            status = prep.executeUpdate();
             System.out.println("Dados inseridos com sucesso...");
             prep.close();
             
@@ -44,7 +44,7 @@ public class ProdutosDAO {
         } finally {
             //conectaDAO.desconectar(); // Certifica-se de fechar a conexão, independentemente do que aconteceu no bloco try
         }
-        
+        return status;
     }
     
     public ArrayList<ProdutosDTO> listarProdutos(){

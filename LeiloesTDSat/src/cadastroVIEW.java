@@ -1,3 +1,6 @@
+
+import javax.swing.JOptionPane;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -143,13 +146,30 @@ public class cadastroVIEW extends javax.swing.JFrame {
         ProdutosDTO produto = new ProdutosDTO();
         String nome = cadastroNome.getText();
         String valor = cadastroValor.getText();
-        String status = "A Venda";
-        produto.setNome(nome);
-        produto.setValor(Integer.parseInt(valor));
-        produto.setStatus(status);
         
-        ProdutosDAO produtodao = new ProdutosDAO();
-        produtodao.cadastrarProduto(produto);
+        if(nome.isEmpty() || valor.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Preencha todos os campos antes de continuar.");
+            return;
+        }
+        
+        try {
+            String status = "A Venda";
+            produto.setNome(nome);
+            produto.setValor(Integer.parseInt(valor));
+            produto.setStatus(status);
+
+            ProdutosDAO produtodao = new ProdutosDAO();
+            int verificação = produtodao.cadastrarProduto(produto);
+            if(verificação == 1){
+                JOptionPane.showMessageDialog(null, "Produto cadastrado.\n:)");
+            }else{
+                JOptionPane.showMessageDialog(null, "Produto não cadastrado.\n:(");
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Erro: O valor deve ser um número inteiro válido.");
+        }
+        
+        
         
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
